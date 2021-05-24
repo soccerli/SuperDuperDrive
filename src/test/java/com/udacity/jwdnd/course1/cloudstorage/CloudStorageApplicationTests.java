@@ -329,7 +329,7 @@ class CloudStorageApplicationTests {
 		waitForVisibility(credentialPage.getCrenTabId());
 		credentialPage.clickCrenTab();
 		Assertions.assertEquals(0,credentialPage.getEditBtns().size());
-		sleep(5000);
+		sleep(2000);
 
 
 
