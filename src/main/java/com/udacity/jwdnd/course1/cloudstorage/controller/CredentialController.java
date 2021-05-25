@@ -35,8 +35,9 @@ public class CredentialController {
     public String createCredential(@ModelAttribute Credentials credential, RedirectAttributes redirectAttributes){
         logger.error("---Begining Credential Controller----");
         String credential_err=null;
+        String credential_ok=null;
         String userName=authenticationService.getUserName();
-
+        Integer credId=credential.getCredentialId();
 
         if(userName==null)
             credential_err = CREDENTIAL_INVALIDSESSION_ERR;
@@ -50,14 +51,18 @@ public class CredentialController {
                 credential_err = CREDENTIAL_INVALIDSESSION_ERR;
         }
 
+        //Integer credId=credential.getCredentialId();
         if(credential_err==null){//create new credential
-            if(credential.getCredentialId()==null) {
+            if(credId==null) {
                 logger.error("Now ready to insert the credential  " + credential.getUrl() + "  " + credential.getUrlUserName() + " " + credential.getUrlPassWord());
                 credentialService.encryptPassword(credential);
                 int rowAdded = credentialService.createCredential(credential);
                 if (rowAdded < 0) {
                     logger.error("CredentialController: insert failed");
                     credential_err = CREDENTIAL_CREATE_ERR;
+                }else{
+                    credId= credentialService.getLastCredentialId();//newly inserted is always the last one
+                    credential_ok=CREDENTIAL_CREATE_SUCCESS;
                 }
             }
             else {
@@ -70,10 +75,16 @@ public class CredentialController {
                 int rowUpdated = credentialService.updateCredential(credential);
                 if(rowUpdated<0)
                     credential_err = CREDENTIAL_UPDATE_ERR;
+                else
+                    credential_ok=CREDENTIAL_UPDATE_SUCCESS;
             }
         }
 
         //redirectAttributes.addAttribute("credentials", credentialService.getAllCredentials());
+        //handling msg (success or failure) attributes
+        if(credential_err==null) {redirectAttributes.addAttribute("opCredOk",true); redirectAttributes.addAttribute("opCredMsg",credential_ok+" -ID:"+credId.toString());}
+        else {redirectAttributes.addAttribute("opCredNotOk",true);redirectAttributes.addAttribute("opCredMsg",credential_err+" -ID:"+credId.toString());}
+
         return("redirect:/home");
     }
 
@@ -83,9 +94,17 @@ public class CredentialController {
                                    RedirectAttributes redirectAttributes){
 
         String credential_err=null;
+        String credential_ok=null;
+
         int rowDeleted=credentialService.deleteCredential(credentialId);
         if(rowDeleted<0)
             credential_err=CREDENTIAL_DELETE_ERR;
+        else
+            credential_ok=CREDENTIAL_DELETE_SUCCESS;
+
+        //handling msg (success or failure) attributes
+        if(credential_err==null) {redirectAttributes.addAttribute("opCredOk",true); redirectAttributes.addAttribute("opCredMsg",credential_ok+" -ID:"+credentialId.toString());}
+        else {redirectAttributes.addAttribute("opCredNotOk",true);redirectAttributes.addAttribute("opCredMsg",credential_err+" -ID:"+credentialId.toString());}
 
         return("redirect:/home");
     }

@@ -14,6 +14,7 @@
                     <button id="logout" type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
+
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -39,6 +40,13 @@
                                 </div>
                             </div>
                         </form>
+                        <div class="alert alert-success fill-parent" th:if="${param.opok}">
+                            <span id="success-message" th:text="${param.opmsg}">Success Message</span>
+                        </div>
+                        <div class="alert alert-danger fill-parent" th:if="${param.opnotok}">
+                            <span id="error-message" th:text="${param.opmsg}">Error Message</span>
+                        </div>
+
                         <div class="table-responsive">
                             <table class="table table-striped" id="fileTable">
                                 <thead>
@@ -63,8 +71,13 @@
                         <button id="addNoteBtn" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
-
                         <div class="table-responsive">
+                            <div class="alert alert-success fill-parent" th:if="${param.opNoteOk}">
+                                <span id="success-note-message" th:text="${param.opNoteMsg}">Success Message</span>
+                            </div>
+                            <div class="alert alert-danger fill-parent" th:if="${param.opNoteNotOk}">
+                                <span id="error-note-message" th:text="${param.opNoteMsg}">Error Message</span>
+                            </div>
                             <table class="table table-striped" id="userTable">
                                 <thead>
                                     <tr>
@@ -129,6 +142,12 @@
                         </button>
 
                         <div class="table-responsive">
+                            <div class="alert alert-success fill-parent" th:if="${param.opCredOk}">
+                                <span id="success-cred-message" th:text="${param.opCredMsg}">Success Message</span>
+                            </div>
+                            <div class="alert alert-danger fill-parent" th:if="${param.opCredNotOk}">
+                                <span id="error-cred-message" th:text="${param.opCredMsg}">Error Message</span>
+                            </div>
                             <table class="table table-striped"  id="credentialTable">
                                 <thead>
                                     <tr>

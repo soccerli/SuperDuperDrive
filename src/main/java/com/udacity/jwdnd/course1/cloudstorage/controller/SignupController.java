@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Base64;
 
@@ -36,7 +37,7 @@ public class SignupController {
     }
 
     @PostMapping
-    public String signUpNewUser(@ModelAttribute("User") User user, Model model){
+    public String signUpNewUser(@ModelAttribute("User") User user, Model model, RedirectAttributes redirectAttributes){
         logger.error("---Starting signupNewUser---");
         logger.error("Before Hash, userName="+user.getUserName()+" passwd="+user.getPassWord()+" salt="+user.getSalt());
         logger.error("FirstName and Last name are"+user.getFirstName()+" "+user.getLastName());
@@ -55,17 +56,18 @@ public class SignupController {
         }
 
         if(signup_err==null){
-            model.addAttribute("isSuccess",true);
-            model.addAttribute("signupMsg",SIGNUP_SUCCESS);
+            redirectAttributes.addAttribute("isSuccess",true);
+            redirectAttributes.addAttribute("signupMsg",SIGNUP_SUCCESS+user.getUserName());
+            return "redirect:/login";
         }
         else{
             model.addAttribute("isFailure",true);
             model.addAttribute("signupMsg",signup_err);
-        }
+            }
 
 
-        logger.error("---Finishing signupNewUser---");
-        return "signup";
+       // logger.error("---Finishing signupNewUser---");
+       return "signup";
 
     }
 }

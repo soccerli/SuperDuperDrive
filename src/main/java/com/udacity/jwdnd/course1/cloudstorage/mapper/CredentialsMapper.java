@@ -38,5 +38,8 @@ public interface CredentialsMapper {
     @Select("Select key FROM CREDENTIALS WHERE credentialId=#{credentialId}")
     String getKey(Integer credentialId);
 
+    @Select("Select max(credentialId) from CREDENTIALS")
+    Integer getLastCredentialId();
+
 
 }

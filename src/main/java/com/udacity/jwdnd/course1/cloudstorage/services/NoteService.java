@@ -36,4 +36,6 @@ public class NoteService {
         return noteMapper.deleteNote(noteid);
     }
 
+    public Integer getLastNoteId() {return noteMapper.getLastNoteId();}
+
 }

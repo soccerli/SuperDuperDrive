@@ -33,12 +33,12 @@ public class FileModelService {
 
 
 
-    public boolean isFileDuplicate(String fileName){
-        List<String> fileNameList = fileMapper.getAllFileNames();
+    public boolean isFileDuplicate(Integer userId,String fileName){
+        List<String> fileNameList = fileMapper.getAllFileNamesForUser(userId);
         return fileNameList.contains(fileName);
     }
 
-    public FileModel getFileByName(String fileName){
-        return fileMapper.getFileByName(fileName);
+    public FileModel getFileByNameForUser(Integer userId,String fileName){
+        return fileMapper.getFileByNameForUser(userId,fileName);
     }
 }

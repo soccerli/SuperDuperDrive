@@ -21,4 +21,7 @@ public interface NoteMapper {
 
     @Delete("DELETE FROM NOTES WHERE noteid=#{noteid}")
     Integer deleteNote(Integer noteid);
+
+    @Select("Select max(noteid) from NOTES")
+    Integer getLastNoteId();
 }

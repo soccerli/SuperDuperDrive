@@ -16,7 +16,11 @@ public class LoginPage {
     @FindBy(id="submit-button")
     private WebElement loginBtn;
 
-    public LoginPage(WebDriver webDriver) {PageFactory.initElements(webDriver,this); }
+    @FindBy(id="signup-success-msg")
+    private WebElement sigupOkMsg;
+
+
+    public LoginPage(WebDriver webDriver) {PageFactory.initElements(webDriver,this);}
 
     public void LoginNow(String uname,String passw){
         userName.clear();
@@ -25,6 +29,8 @@ public class LoginPage {
         passWord.sendKeys(passw);
         loginBtn.click();
     }
+
+    public boolean sigupOkMsgDisplayed() { return sigupOkMsg.isDisplayed(); }
 
 
 }

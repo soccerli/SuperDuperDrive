@@ -74,5 +74,6 @@ public class CredentialService {
 
 
     public String getKeyById(Integer id){ return credentialsMapper.getKey(id);}
+    public Integer getLastCredentialId() {return credentialsMapper.getLastCredentialId();}
 
 }

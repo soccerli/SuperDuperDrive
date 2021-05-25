@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -119,8 +120,17 @@ class CloudStorageApplicationTests {
 		driver.get(baseUrl + "/signup");
 		SignupPage signupPage = new SignupPage(driver);
 		signupPage.signUpNow(fname, lname, uname, pword);
-		sleep(1000);
-		Assertions.assertTrue(signupPage.sigupOkMsgDisplayed());
+		//now we should have been redirected to login page with successful msg
+		//driver.navigate().to(baseUrl +"/login");
+		//driver.switchTo().window("/login");
+		sleep(4000);
+		assertEquals("Login", driver.getTitle());
+		//driver.findElement(By.id("signup-success-msg"));
+		 //driver.get(baseUrl + "/login");
+		//LoginPage loginPage=new LoginPage(driver);
+		//sleep(5000);
+        //Assertions.assertTrue(driver..sigupOkMsgDisplayed());
+		//Assertions.assertTrue(signupPage.sigupOkMsgDisplayed());
 	}
 
 	//Write a test that signs up a new user, logs in, verifies that the home page is accessible,
@@ -203,6 +213,7 @@ class CloudStorageApplicationTests {
 		//go back to notTab
 		waitForVisibility(notePage.getNoteTabId());
 		notePage.clickNoteTab();
+		sleep(1000);
 		//verify  note is edited and displayed as expected
 		Assertions.assertEquals(notePage.getNoteTitleDisplay(),noteTitle_upt);
 		Assertions.assertEquals(notePage.getNoteDesDisplay(),noteDes_upt);
@@ -220,6 +231,7 @@ class CloudStorageApplicationTests {
 		//go back to notTab, visually see note is deleted and let's assert it
 		waitForVisibility(notePage.getNoteTabId());
 		notePage.clickNoteTab();
+		sleep(1000);
 		Assertions.assertEquals(0,notePage.getNoteEditBtns().size());
 
 	}
